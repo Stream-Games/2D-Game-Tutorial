@@ -9,11 +9,13 @@ public class PlayerMovement : MonoBehaviour
     private float speed = 8f;
     private float jumpSpeed = 14f;
     [SerializeField] private LayerMask jumpableGround;
-
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator anim;
     [SerializeField] private SpriteRenderer sprite;
-    [SerializeField] private BoxCollider2D collider;
+    [SerializeField] private BoxCollider2D coll;
+
+    // Game Sounds
+    [SerializeField] private AudioSource jumpSoundEffect;
 
     void Update()
     {
@@ -23,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGrounded())
         {
+            jumpSoundEffect.Play();
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
         }
 
@@ -57,6 +60,6 @@ public class PlayerMovement : MonoBehaviour
 
     bool isGrounded()
     {
-        return Physics2D.BoxCast(collider.bounds.center, collider.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround);
     }
 }
